@@ -1,22 +1,34 @@
 import {Vec2, Box, World} from "planck";
+import * as MENU from "./menu.js";
+import PIDController from "./pid-controller.js";
 
 // Get the canvas element
 const canvas = document.getElementById("area");
 const ctx = canvas.getContext("2d");
 
-// Create a <link>Planck.js</link> world
 const world = World(Vec2(0, 0));
 
+canvas.width = 500;
+canvas.height = 500;
+
+const PPM = 30;
+
+const targetX = 10;
+const targetY = -2.5;
+
 // Define the box properties
-const boxWidth = 50;
-const boxHeight = 50;
+const boxWidth = 1;
+const boxHeight = 1;
 
 // Create a dynamic body for the box
-const box = world.createDynamicBody(Vec2(200, 100));
+const box = world.createDynamicBody(Vec2(1, -2.5));
 box.createFixture({
-	shape: Box(boxWidth / 2, boxHeight / 2),
+	shape: Box(boxWidth, boxHeight),
 	density: 1.0,
 });
+
+MENU.initMenu();
+const pid = new PIDController();
 
 // Render the box on the canvas
 function render() {
@@ -25,14 +37,20 @@ function render() {
 
 	// Clear the canvas
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.fillStyle = "white";
+	ctx.fillRect(targetX * PPM, (-position.y * PPM), 30, 30);
 
 	// Draw the box
 	ctx.save();
-	ctx.translate(position.x, position.y);
+	//ctx.translate(position.x * PPM, (-position.y * PPM));
 	ctx.rotate(angle);
-	ctx.fillStyle = "#0095DD";
-	ctx.fillRect(-boxWidth / 2, -boxHeight / 2, boxWidth, boxHeight);
+	ctx.fillStyle = "blue";
+	ctx.fillRect(position.x * PPM, (-position.y * PPM), boxWidth * PPM, boxHeight * PPM);
 	ctx.restore();
+	var r = pid.Update(1/60, position.x, targetX);
+	console.log(r);
+	var force = {x: r, y: 0};
+	box.applyForce(force, box.getWorldCenter());
 }
 
 // Animation loop

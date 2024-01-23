@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "eslint": "^8.56.0",
-    "parcel": "^2.11.0"
+    "parcel": "^2.11.0",
+    "tweakpane": "^4.0.3"
   }
 }

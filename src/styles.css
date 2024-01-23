@@ -1,7 +1,15 @@
+body, html {
+      margin: 10px;
+      padding: 0;
+      overflow: hidden;
+}
+
 #area {
-	margin: auto;
+	margin: 0;
 	padding: 0;
 	display: block;
+      	width: 500px;
+      	height: 500px;
 	background: #ccc;
 }
 
