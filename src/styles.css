@@ -1,0 +1,11 @@
+#area {
+	margin: auto;
+	padding: 0;
+	display: block;
+	background: #ccc;
+}
+
+h1 {
+  color: blue;
+  font-family: cursive;
+}

@@ -1,0 +1,21 @@
+{
+  "name": "pid",
+  "version": "1.0.0",
+  "description": "",
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel serve --no-cache",
+    "build": "parcel build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Robin Krens",
+  "license": "ISC",
+  "dependencies": {
+    "planck": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "parcel": "^2.11.0"
+  }
+}
