@@ -8,12 +8,12 @@ const ctx = canvas.getContext("2d");
 
 const world = World(Vec2(0, 0));
 
-canvas.width = 500;
-canvas.height = 500;
+canvas.width =	window.innerWidth;
+canvas.height = window.innerHeight;
 
 const PPM = 30;
 
-const targetX = 10;
+var targetX = 10;
 const targetY = -2.5;
 
 // Define the box properties
@@ -25,10 +25,16 @@ const box = world.createDynamicBody(Vec2(1, -2.5));
 box.createFixture({
 	shape: Box(boxWidth, boxHeight),
 	density: 1.0,
+	friction: 0.01,
 });
 
-MENU.initMenu();
 const pid = new PIDController();
+MENU.initMenu(pid);
+
+canvas.addEventListener("click", function(event) {
+	targetX = (event.clientX - canvas.getBoundingClientRect().left) / PPM;
+	console.log("Updated targetX:", targetX);
+});
 
 // Render the box on the canvas
 function render() {
@@ -48,7 +54,7 @@ function render() {
 	ctx.fillRect(position.x * PPM, (-position.y * PPM), boxWidth * PPM, boxHeight * PPM);
 	ctx.restore();
 	var r = pid.Update(1/60, position.x, targetX);
-	console.log(r);
+	//console.log(r);
 	var force = {x: r, y: 0};
 	box.applyForce(force, box.getWorldCenter());
 }

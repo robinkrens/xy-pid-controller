@@ -4,10 +4,10 @@ class PIDController {
 	//    ErrorRateOfChange
 	//}
 	constructor() {
-    	this.PIDParams = {proportionalGain: 50, integralGain: 0.01, derivativeGain: 35, outputMin: -1, outputMax: 1, integralSaturation: false, derivativeInitialized: false};
+    	this.PIDParams = {proportionalGain: 2, integralGain: 0.0, derivativeGain: 2, iMin: -1, iMax: 1, integralSaturation: false, derivativeInitialized: false, outputMax: 1, outputMin: -1, magnitude: 10, force: 0};
 		this.valueLast; 
 		this.errorLast;
-    	this.integrationStored;
+    	this.integrationStored = 0;
     	this.velocity;
 	}
 	Reset() {
@@ -21,8 +21,8 @@ class PIDController {
         
 		var P = this.PIDParams.proportionalGain * error;
         
-		this.integrationStored = Math.min(Math.max(this.integrationStored + (error * dt), -this.integralSaturation), -this.integralSaturation);
-		var I = this.integralGain * this.integrationStored;
+		this.integrationStored = Math.min(Math.max(this.integrationStored + (error * dt), this.PIDParams.iMin), this.PIDParams.iMax);
+		var I = this.PIDParams.integralGain * this.integrationStored;
 
 		var errorRateOfChange = (error - this.errorLast) / dt;
 		this.errorLast = error;
@@ -42,56 +42,15 @@ class PIDController {
 		} else {
 			this.derivativeInitialized = true;
 		}
-
 		var D = this.PIDParams.derivativeGain * deriveMeasure;
-		var result = P + D;
+		var result = P + I + D;
+		result *= this.PIDParams.magnitude;
+		this.PIDParams.force = result * 60; /* this routine is called ~60seconds */
+
+		//console.log(result*60 + " N");
 		return result;
-
-		//return Math.min(Math.max((result, this.outputMin), this.outputMax));
+		//return Math.min(Math.max((result, this.PIDParams.outputMin), this.PIDParams.outputMax));
 	}
-
-	// float AngleDifference(float a, float b) {
-	//     return (a - b + 540) % 360 - 180;   //calculate modular difference, and remap to [-180, 180]
-	// }
-
-	// public float UpdateAngle(float dt, float currentAngle, float targetAngle) {
-	//     if (dt <= 0) throw new ArgumentOutOfRangeException(nameof(dt));
-	//     float error = AngleDifference(targetAngle, currentAngle);
-
-	//     //calculate P term
-	//     float P = proportionalGain * error;
-
-	//     //calculate I term
-	//     integrationStored = Mathf.Clamp(integrationStored + (error * dt), -integralSaturation, integralSaturation);
-	//     float I = integralGain * integrationStored;
-
-	//     //calculate both D terms
-	//     float errorRateOfChange = AngleDifference(error, errorLast) / dt;
-	//     errorLast = error;
-
-	//     float valueRateOfChange = AngleDifference(currentAngle, valueLast) / dt;
-	//     valueLast = currentAngle;
-	//     velocity = valueRateOfChange;
-
-	//     //choose D term to use
-	//     float deriveMeasure = 0;
-
-	//     if (derivativeInitialized) {
-	//         if (derivativeMeasurement == DerivativeMeasurement.Velocity) {
-	//             deriveMeasure = -valueRateOfChange;
-	//         } else {
-	//             deriveMeasure = errorRateOfChange;
-	//         }
-	//     } else {
-	//         derivativeInitialized = true;
-	//     }
-
-	//     float D = derivativeGain * deriveMeasure;
-
-	//     float result = P + I + D;
-
-	//     return Mathf.Clamp(result, outputMin, outputMax);
-	// }
 }
 
 export default PIDController;

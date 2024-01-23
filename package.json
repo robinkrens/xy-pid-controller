@@ -12,11 +12,11 @@
   "author": "Robin Krens",
   "license": "ISC",
   "dependencies": {
-    "planck": "^1.0.0"
+    "planck": "^1.0.0",
+    "tweakpane": "^3.1.4"
   },
   "devDependencies": {
     "eslint": "^8.56.0",
-    "parcel": "^2.11.0",
-    "tweakpane": "^4.0.3"
+    "parcel": "^2.11.0"
   }
 }

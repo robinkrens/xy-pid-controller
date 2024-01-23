@@ -1,0 +1,15 @@
+import {Pane} from "tweakpane";
+
+function initMenu(pid)
+{
+	const pane = new Pane();
+	const pidSettings = pane.addFolder({
+		title: "PID settings"
+	}); 
+	pidSettings.addInput(
+		pid.PIDParams, "proportionalGain",
+		{min: 0, max: 100, step: 1}
+	);
+}
+
+export {initMenu};
