@@ -1,11 +1,12 @@
 {
-  "name": "pid",
+  "name": "x-y-pid-controller",
   "version": "1.0.0",
   "description": "",
   "source": "src/index.html",
   "scripts": {
     "start": "parcel serve --no-cache",
     "build": "parcel build",
+    "build-gitlab": "parcel build --dist-dir public --public-url ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
