@@ -22,10 +22,10 @@ function initMenu(pid)
 	);
 	pidSettings.addInput(
 		pid.PIDParams, "derivativeMeasurement", {
-		options: {
-			error: "Error",
-			velocity: "Velocity"
-		}
+			options: {
+				error: "Error",
+				velocity: "Velocity"
+			}
 		});
 	pane.addMonitor(pid.PIDParams, "forceMagnitude", {
 		title: "Force (N)",
