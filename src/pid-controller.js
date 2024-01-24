@@ -1,8 +1,4 @@
 class PIDController {
-	//public enum DerivativeMeasurement {
-	//    Velocity,
-	//    ErrorRateOfChange
-	//}
 	constructor() {
     	this.PIDParams = {proportionalGain: 2, integralGain: 0.0, derivativeGain: 2, iMin: -1, iMax: 1, integralSaturation: false, derivativeInitialized: false, outputMax: 1, outputMin: -1, magnitude: 10, force: 0, derivativeMeasurement: "Velocity"};
 		this.valueLast; 
@@ -35,7 +31,7 @@ class PIDController {
 
 		if (this.derivativeInitialized) {
 			if (this.PIDParams.derivativeMeasurement == "Velocity") {
-			deriveMeasure = -valueRateOfChange;
+				deriveMeasure = -valueRateOfChange;
 			} else {
 			   deriveMeasure = errorRateOfChange;
 			}
@@ -47,7 +43,6 @@ class PIDController {
 		result *= this.PIDParams.magnitude;
 		this.PIDParams.force = result * 60; /* this routine is called ~60seconds */
 
-		//console.log(result*60 + " N");
 		return result;
 		//return Math.min(Math.max((result, this.PIDParams.outputMin), this.PIDParams.outputMax));
 	}
