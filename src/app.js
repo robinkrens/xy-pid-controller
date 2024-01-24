@@ -14,7 +14,7 @@ canvas.height = window.innerHeight;
 const PPM = 30;
 
 var targetX = 10;
-const targetY = -2.5;
+var targetY = -2.5;
 
 // Define the box properties
 const boxWidth = 1;
@@ -33,7 +33,8 @@ MENU.initMenu(pid);
 
 canvas.addEventListener("click", function(event) {
 	targetX = (event.clientX - canvas.getBoundingClientRect().left) / PPM;
-	console.log("Updated targetX:", targetX);
+	targetY = -(event.clientY) / PPM
+	console.log("Updated target:", targetX, targetY);
 });
 
 // Render the box on the canvas
@@ -44,7 +45,7 @@ function render() {
 	// Clear the canvas
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.fillStyle = "white";
-	ctx.fillRect(targetX * PPM, (-position.y * PPM), 30, 30);
+	ctx.fillRect(targetX * PPM, (-targetY * PPM), 30, 30);
 
 	// Draw the box
 	ctx.save();
@@ -53,9 +54,7 @@ function render() {
 	ctx.fillStyle = "blue";
 	ctx.fillRect(position.x * PPM, (-position.y * PPM), boxWidth * PPM, boxHeight * PPM);
 	ctx.restore();
-	var r = pid.Update(1/60, position.x, targetX);
-	//console.log(r);
-	var force = {x: r, y: 0};
+	var force = pid.Update(1/60, {x: position.x, y: position.y}, {x: targetX, y: targetY});
 	box.applyForce(force, box.getWorldCenter());
 }
 

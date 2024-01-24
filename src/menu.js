@@ -27,11 +27,11 @@ function initMenu(pid)
 			velocity: "Velocity"
 		}
 		});
-	pane.addMonitor(pid.PIDParams, "force", {
+	pane.addMonitor(pid.PIDParams, "forceMagnitude", {
 		title: "Force (N)",
   		view: "graph",
-		min: -10000,
-		max: +10000,
+		min: 0,
+		max: +20000,
 	});
 }
 
