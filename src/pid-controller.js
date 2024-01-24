@@ -4,7 +4,7 @@ class PIDController {
 	//    ErrorRateOfChange
 	//}
 	constructor() {
-    	this.PIDParams = {proportionalGain: 2, integralGain: 0.0, derivativeGain: 2, iMin: -1, iMax: 1, integralSaturation: false, derivativeInitialized: false, outputMax: 1, outputMin: -1, magnitude: 10, force: 0};
+    	this.PIDParams = {proportionalGain: 2, integralGain: 0.0, derivativeGain: 2, iMin: -1, iMax: 1, integralSaturation: false, derivativeInitialized: false, outputMax: 1, outputMin: -1, magnitude: 10, force: 0, derivativeMeasurement: "Velocity"};
 		this.valueLast; 
 		this.errorLast;
     	this.integrationStored = 0;
@@ -34,11 +34,11 @@ class PIDController {
 		var deriveMeasure = 0;
 
 		if (this.derivativeInitialized) {
-			//if (derivativeMeasurement == DerivativeMeasurement.Velocity) {
+			if (this.PIDParams.derivativeMeasurement == "Velocity") {
 			deriveMeasure = -valueRateOfChange;
-			//} else {
-			//   deriveMeasure = errorRateOfChange;
-			//}
+			} else {
+			   deriveMeasure = errorRateOfChange;
+			}
 		} else {
 			this.derivativeInitialized = true;
 		}

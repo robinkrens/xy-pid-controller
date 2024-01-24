@@ -20,6 +20,13 @@ function initMenu(pid)
 		pid.PIDParams, "integralGain",
 		{min: 0, max: 10, step: 0.1}
 	);
+	pidSettings.addInput(
+		pid.PIDParams, "derivativeMeasurement", {
+		options: {
+			error: "Error",
+			velocity: "Velocity"
+		}
+		});
 	pane.addMonitor(pid.PIDParams, "force", {
 		title: "Force (N)",
   		view: "graph",
